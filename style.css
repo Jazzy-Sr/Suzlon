@@ -1,0 +1,236 @@
+/* --- Global Styles & Color Variables --- */
+:root {
+    --suzlon-green: #009A3F;
+    --suzlon-blue: #003865;
+    --text-light: #ffffff;
+    --text-dark: #333;
+    --divider-color: #00988C;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    overflow: hidden; /* Prevent all native scrolling */
+    height: 100%;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    color: var(--text-light);
+    background-color: #000;
+}
+
+/* --- Main Screen Container --- */
+.screen-container {
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+}
+
+/* Screen Stacking and Fade Transition */
+.screen {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    padding: 3rem;
+    
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.6s ease-in-out, visibility 0.6s;
+    z-index: 1;
+}
+
+.screen.active-screen {
+    opacity: 1;
+    visibility: visible;
+    z-index: 2; /* Bring active screen to the front */
+}
+
+/* Foreground Image Layer */
+.screen-foreground-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-image: var(--bg-desktop);
+    z-index: 1;
+}
+
+.screen-content {
+    position: relative;
+    z-index: 2;
+    width: 45%;
+    max-width: 600px;
+    color: var(--text-light);
+    text-align: left;
+}
+
+/* Alternating & Centered Text Positioning */
+.screen.align-left-center { justify-content: flex-start; }
+.screen.align-right-center { justify-content: flex-end; }
+.screen.align-center-center { justify-content: center; text-align: center; }
+.screen.align-center-center .screen-content { text-align: center; }
+
+
+.screen-headline { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 700; color: var(--divider-color); margin-bottom: 1rem; line-height: 1.1; }
+.screen-subhead { font-size: 1.8rem; font-weight: 700; margin-bottom: 1.5rem; }
+.screen-body { font-size: 1.2rem; font-weight: 700; line-height: 1.7; }
+
+/* Fixed Header, Nav, and Footer */
+.site-header { position: fixed; top: 0; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem; z-index: 101; border-bottom: 2px solid var(--divider-color); }
+.header-logo { height: 50px; }
+.top-nav { display: flex; }
+.top-nav a { color: var(--text-light); text-decoration: none; padding: 0.7rem 1rem; font-weight: 700; font-size: 0.9rem; transition: color 0.2s ease-in-out; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
+.top-nav a.active { color: var(--divider-color); }
+
+.dot-nav { position: fixed; right: 2rem; top: 50%; transform: translateY(-50%); z-index: 10; display: flex; flex-direction: column; gap: 6px; }
+.dot-nav a { width: 6px; height: 6px; background: rgba(255, 255, 255, 0.5); border-radius: 50%; transition: all 0.2s ease-in-out; }
+.dot-nav a.active { background: var(--text-light); transform: scale(1.5); }
+
+footer { position: fixed; bottom: 0; left: 0; width: 100%; z-index: 100; background: #000; color: #fff; }
+.footer-divider { border: none; height: 8.8vh; background-color: var(--divider-color); }
+.footer-content { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 1rem 2rem; font-size: 0.9rem; }
+.footer-right a { color: #fff; text-decoration: none; margin-left: 1rem; }
+
+/* The override for the white background has been removed. */
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+    body { background-image: var(--bg-mobile); }
+    .screen-foreground-bg { background-image: var(--bg-mobile); }
+    .screen-content { width: 100%; text-align: center; }
+    .screen.align-left-center, .screen.align-right-center, .screen.align-center-center { justify-content: center; text-align: center; }
+    .site-header { padding: 1rem; }
+    .header-logo { height: 40px; }
+    .top-nav { display: none; }
+    .dot-nav { right: 1rem; }
+    footer { height: auto; }
+    .footer-content { flex-direction: column; gap: 1rem; padding: 1rem; }
+}
+
+/* === Staggered content reveal per slide === */
+.screen .screen-headline,
+.screen .screen-subhead,
+.screen .screen-body {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 500ms ease, transform 500ms ease;
+}
+
+/* When a slide becomes active, reveal items in sequence: headline -> subhead -> body */
+.active-screen .screen-headline {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 120ms;
+}
+.active-screen .screen-subhead {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 420ms;
+}
+.active-screen .screen-body {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 720ms;
+}
+
+/* Reset delays when leaving the screen so reverse is snappy */
+.screen:not(.active-screen) .screen-headline,
+.screen:not(.active-screen) .screen-subhead,
+.screen:not(.active-screen) .screen-body {
+  transition-delay: 0ms;
+}
+
+/* Force subhead and body copy to be black on all slides */
+.screen-subhead,
+.screen-body {
+  color: #000 !important;
+}
+/* === Mobile type + alignment overrides === */
+@media (max-width: 768px) {
+  /* Make text left-aligned on mobile */
+  .screen-content { 
+    text-align: left !important; 
+    width: 100%; 
+  }
+  /* Stop the alignment classes from forcing centered text */
+  .screen.align-left-center,
+  .screen.align-right-center,
+  .screen.align-center-center {
+    justify-content: center;           /* keep block placement centered if you like */
+  }
+  .screen.align-center-center .screen-content {
+    text-align: left !important;       /* ensure left text even for "center" slides */
+  }
+
+  /* ~50% of desktop font sizes */
+  .screen-headline {
+    /* desktop: clamp(2.5rem, 6vw, 4.5rem) → mobile: roughly half */
+    font-size: clamp(1.25rem, 7vw, 2.25rem) !important;
+  }
+  .screen-subhead {
+    /* desktop: 1.8rem → mobile: ~0.9rem */
+    font-size: 1.1rem !important;
+  }
+  .screen-body {
+    /* desktop: 1.2rem → mobile: ~0.6rem */
+    font-size: 0.8rem !important;
+  }
+}
+/* === Mobile top alignment override === */
+@media (max-width: 768px) {
+  .screen {
+    align-items: flex-start !important;  /* stick content to the top */
+    justify-content: flex-start !important;
+  }
+  .screen-content {
+    text-align: left !important;         /* left align text */
+    margin-top: 4rem;                    /* adjust this value to sit below the header line */
+    width: 100%;
+  }
+}
+@media (max-width: 768px) {
+  /* Top separator spacing */
+  .site-header {
+    margin-bottom: 5vh !important;   /* reduce from 8.8% → 5% */
+  }
+
+  /* Bottom separator spacing */
+  .footer-divider {
+    margin: 5vh 0 !important;        /* reduce from 8.8% → 5% */
+  }
+}
+@media (max-width: 768px) {
+  .footer-content {
+    margin-top: 1rem;   /* push footer text below the bottom line */
+  }
+}
+/* Bottom separator: remove default <hr> margins and pin the teal bar */
+.footer-divider {
+  display: block;
+  border: 0;
+  margin: 0 !important;         /* <-- removes the black strip above the teal bar */
+  height: 8.8vh;                /* desktop height of the teal separator */
+  background-color: var(--divider-color);
+}
+
+/* Footer content should start below the teal bar */
+.footer-content {
+  margin-top: 1rem;             /* adjust as you like */
+}
+
+/* Mobile: shrink teal bar height to 5% of viewport */
+@media (max-width: 768px) {
+  .footer-divider { height: 5vh; }
+}
