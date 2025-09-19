@@ -85,7 +85,7 @@ body {
 
 .screen-headline { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 700; color: var(--divider-color); margin-bottom: 1rem; line-height: 1.1; }
 .screen-subhead { font-size: 1.8rem; font-weight: 700; margin-bottom: 1.5rem; }
-.screen-body { font-size: 1.2rem; font-weight: 700; line-height: 1.7; }
+.screen-body { font-size: 1.2rem; font-weight: 400; line-height: 1.7; }
 
 /* Fixed Header, Nav, and Footer */
 .site-header { position: fixed; top: 0; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem; z-index: 101; border-bottom: 2px solid var(--divider-color); }
@@ -234,3 +234,4 @@ footer { position: fixed; bottom: 0; left: 0; width: 100%; z-index: 100; backgro
 @media (max-width: 768px) {
   .footer-divider { height: 5vh; }
 }
+
