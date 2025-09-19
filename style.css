@@ -91,8 +91,11 @@ body {
 .site-header { position: fixed; top: 0; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem; z-index: 101; border-bottom: 2px solid var(--divider-color); }
 .header-logo { height: 50px; }
 .top-nav { display: flex; }
-.top-nav a { color: var(--text-light); text-decoration: none; padding: 0.7rem 1rem; font-weight: 700; font-size: 0.9rem; transition: color 0.2s ease-in-out; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
-.top-nav a.active { color: var(--divider-color); }
+.top-nav a { color:#000; text-decoration: none; padding: 0.7rem 1rem; font-weight: 700; font-size: 0.9rem; transition: color 0.2s ease-in-out; text-shadow: none;   /* turn off shadow */ }
+.top-nav a.active {
+  color: var(--divider-color) !important;  /* keep active link teal */
+}
+
 
 .dot-nav { position: fixed; right: 2rem; top: 50%; transform: translateY(-50%); z-index: 10; display: flex; flex-direction: column; gap: 6px; }
 .dot-nav a { width: 6px; height: 6px; background: rgba(255, 255, 255, 0.5); border-radius: 50%; transition: all 0.2s ease-in-out; }
@@ -235,3 +238,31 @@ footer { position: fixed; bottom: 0; left: 0; width: 100%; z-index: 100; backgro
   .footer-divider { height: 5vh; }
 }
 
+/* === Custom styles for Home Screen (Screen 1) === */
+#screen-0 .screen-headline {
+  color: #000 !important;            /* black */
+
+}
+
+#screen-0 .screen-subhead {
+  color: var(--divider-color) !important;  /* teal (same as elsewhere) */
+  font-weight: 400;                        /* normal weight */
+}
+
+#screen-0 .screen-body {
+  color: #fff !important;            /* white */
+  font-weight: 700 !important;       /* bold */
+}
+
+/* Home screen headline custom sizes */
+#screen-0 .screen-headline {
+  color: #000 !important;
+  font-size: clamp(1.5rem, 4.32vw, 3.24rem) !important;  /* ~80% of desktop size */
+}
+
+/* Mobile: override separately */
+@media (max-width: 768px) {
+  #screen-0 .screen-headline {
+    font-size: 1.6rem !important;  /* tweak as needed for mobile */
+  }
+}
